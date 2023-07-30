@@ -1,8 +1,8 @@
 const fs = require("fs/promises");
-const inquirer = require('inquirer');
-const generateMarkdown = require('./utils/generateMarkdown.js')
+const inquirer = require("inquirer");
+const generateMarkdown = require("./utils/generateMarkdown.js");
 
-// TODO: Create an array of questions for user input
+//Array of questions for user input
 const questions = [
   {
     type: "input",
@@ -27,7 +27,59 @@ const questions = [
   {
     type: "list",
     message: "Select a license: ",
-    choices: ["MIT License", "Apache License 2.0", "GNU General Public License v3.0", "Mozilla Public License 2.0", "Eclipse Public License 2.0"],
+    choices: [
+      {
+        name: "MIT License",
+        value: {
+          title: "MIT License",
+          badge:
+            "![Static Badge](https://img.shields.io/badge/license-MIT_License-green)",
+          url: "https://opensource.org/license/mit/",
+          text: "This program is covered under the MIT License.",
+        },
+      },
+      {
+        name: "Apache License 2.0",
+        value: {
+          title: "Apache License 2.0",
+          badge:
+            "![Static Badge](https://img.shields.io/badge/license-Apache_License_2.0-green)",
+          url: "https://www.apache.org/licenses/LICENSE-2.0",
+          text: "This program is covered under the Apache License 2.0.",
+        },
+      },
+      {
+        name: "GNU General Public License v3.0",
+        value: {
+          title: "GNU General Public License v3.0",
+          badge:
+            "![Static Badge](https://img.shields.io/badge/license-GNU_General_Public_License_v3.0-green)",
+          url: "https://www.gnu.org/licenses/gpl-3.0.en.html#license-text",
+          text: "This program is covered under the GNU General Public License v3.0.",
+        },
+      },
+      {
+        name: "Mozilla Public License 2.0",
+        value: {
+          title: "Mozilla Public License 2.0",
+          badge:
+            "![Static Badge](https://img.shields.io/badge/license-Mozilla_Public_License_2.0-green)",
+          url: "https://www.mozilla.org/en-US/MPL/2.0/",
+          text: "This program is covered under the Mozilla Public License 2.0.",
+        },
+      },
+      {
+        name: "Eclipse Public License 2.0",
+        value: {
+          title: "Eclipse Public License 2.0",
+          badge:
+            "![Static Badge](https://img.shields.io/badge/license-Eclipse_Public_License_2.0-green)",
+          url: "https://www.eclipse.org/legal/epl-2.0/",
+          text: "This program is covered under the Eclipse Public License 2.0.",
+        },
+      },
+      ""
+    ],
     name: "license",
   },
   {
@@ -51,17 +103,17 @@ const questions = [
     name: "email",
   },
 ];
-// TODO: Create a function to write README file
+
+// Pass the user's responses to the generateMarkdown function, save the resulting content as a new file.
 function writeToFile(fileName, data) {
-    fs.writeFile(fileName,generateMarkdown.generateMarkdown(data))
-
-
+  fs.writeFile(fileName, generateMarkdown.generateMarkdown(data));
 }
 
-// TODO: Create a function to initialize app
+// Initialize the app by prompting for questions with inquirer
 function init() {
-    inquirer.prompt(questions)
-    .then((response) => {writeToFile('README.md',response)})
+  inquirer.prompt(questions).then((response) => {
+    writeToFile("README.md", response);
+  });
 }
 
 // Function call to initialize app
