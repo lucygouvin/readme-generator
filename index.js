@@ -1,5 +1,8 @@
+// Requre FS to be able to write files
 const fs = require("fs/promises");
+// Requre Inquirer to be able to ask questions to the user
 const inquirer = require("inquirer");
+// Require the JavaScript file containing the function for generating the markdown file
 const generateMarkdown = require("./utils/generateMarkdown.js");
 
 //Array of questions for user input
@@ -78,7 +81,6 @@ const questions = [
           text: "This program is covered under the Eclipse Public License 2.0.",
         },
       },
-      ""
     ],
     name: "license",
   },
@@ -106,14 +108,21 @@ const questions = [
 
 // Pass the user's responses to the generateMarkdown function, save the resulting content as a new file.
 function writeToFile(fileName, data) {
-  fs.writeFile(fileName, generateMarkdown.generateMarkdown(data));
+  fs.writeFile(fileName, generateMarkdown.generateMarkdown(data))
+    .then(() => console.log("README.md Created!"))
+    .catch((err) => console.error(err));
 }
 
 // Initialize the app by prompting for questions with inquirer
 function init() {
-  inquirer.prompt(questions).then((response) => {
-    writeToFile("README.md", response);
-  });
+  inquirer
+    .prompt(questions)
+    .then((response) => {
+      writeToFile("README.md", response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 // Function call to initialize app
